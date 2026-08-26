@@ -1,0 +1,12 @@
+﻿# LazyTranslate.WPFTest Localisation
+# @version 1
+
+# ===================
+# Translations
+
+"Button Text" = "Klicken Sie hier"
+"Change Language" = "Sprache ändern"
+"Hello World" = "Guten Tag Welt"
+
+[obsolete]
+"{Binding MyName}" = "{Binding MyName}" # LOC:TODO

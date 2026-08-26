@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="LazyTranslate.CatalogueBuilder/LazyTranslate.CatalogueBuilder.vbproj" />
+  <Project Path="LazyTranslate.WPFTest/LazyTranslate.WPFTest.vbproj" />
+  <Project Path="LazyTranslate/LazyTranslate.vbproj" />
+</Solution>
