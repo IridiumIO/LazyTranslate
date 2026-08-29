@@ -3,6 +3,19 @@
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
     <RootNamespace>LazyTranslate</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Lazy Translate Catalogue Builder</Title>
+    <Version>0.1.1</Version>
+    <Authors>IridiumIO</Authors>
+    <Company>IridiumIO</Company>
+    <Description>Lazy Translate Catalogue Builder for creating and managing translation catalogues in DEBUG mode</Description>
+    <Copyright>IridiumIO</Copyright>
+    <PackageProjectUrl>https://github.com/IridiumIO/LazyTranslate</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/IridiumIO/LazyTranslate</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageOutputPath>..\artifacts</PackageOutputPath>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,4 +26,11 @@
     <ProjectReference Include="..\LazyTranslate\LazyTranslate.vbproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  
 </Project>

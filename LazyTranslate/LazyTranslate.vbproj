@@ -1,10 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>LazyTranslate</RootNamespace>
     <TargetFramework>net10.0-windows</TargetFramework>
     <RootNamespace>LazyTranslate</RootNamespace>
     <UseWPF>true</UseWPF>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Lazy Translate</Title>
+    <Version>0.1.1</Version>
+    <Authors>IridiumIO</Authors>
+    <Company>IridiumIO</Company>
+    <Description>Lazy Translation Library for WPF</Description>
+    <Copyright>IridiumIO</Copyright>
+    <PackageProjectUrl>https://github.com/IridiumIO/LazyTranslate</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/IridiumIO/LazyTranslate</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageOutputPath>..\artifacts</PackageOutputPath>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +28,13 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>LazyTranslate.CatalogueBuilder</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
