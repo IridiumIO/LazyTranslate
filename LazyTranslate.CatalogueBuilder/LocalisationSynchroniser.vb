@@ -30,7 +30,12 @@ Friend NotInheritable Class LocalisationSynchroniser
         For Each filePath In Directory.EnumerateFiles(localisationDirectory, "*.toml")
             If Path.GetFileName(filePath).Equals(englishFileName, StringComparison.OrdinalIgnoreCase) Then Continue For
             If Path.GetFileName(filePath).Equals("manifest.toml", StringComparison.OrdinalIgnoreCase) Then Continue For
-            SynchroniseLanguage(filePath, english, applicationName)
+
+            Try
+                SynchroniseLanguage(filePath, english, applicationName)
+            Catch ex As Exception
+                Debug.WriteLine($"[LOC] Failed to synchronise {Path.GetFileName(filePath)}: {ex.Message}")
+            End Try
         Next
 
     End Sub

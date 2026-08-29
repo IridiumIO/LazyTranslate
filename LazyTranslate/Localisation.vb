@@ -57,6 +57,7 @@ Public Module Localisation
 
             Dim remoteText = Await HttpClient.GetStringAsync(New Uri(catalogueBaseUri, remoteFileName))
             If ReadLocalisationVersion(remoteText) <> remoteVersion Then Return False
+            TomlSerializer.Deserialize(Of TomlTable)(remoteText)
 
             Dim tempPath = localPath & ".tmp"
             Await File.WriteAllTextAsync(tempPath, remoteText, Encoding.UTF8)

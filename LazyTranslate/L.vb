@@ -97,9 +97,6 @@ Partial Public NotInheritable Class L
             Return True
         Catch ex As Exception
             Debug.WriteLine($"[LOC] Failed to load language '{cultureName}': {ex.Message}")
-            _strings.Clear()
-            _contexts.Clear()
-            NotifyLanguageChanged()
             Return False
         End Try
 
