@@ -17,7 +17,7 @@ Friend NotInheritable Class LocalisationSynchroniser
     ' Public API
     ' ====================
 
-    Public Shared Sub SynchroniseAll(localisationDirectory As String, applicationName As String, Optional englishFileName As String = "en-AU.toml")
+    Public Shared Sub SynchroniseAll(localisationDirectory As String, applicationName As String, programVersion As String, Optional englishFileName As String = "en-AU.toml")
 
         Dim englishPath = Path.Combine(localisationDirectory, englishFileName)
         If Not File.Exists(englishPath) Then
@@ -32,7 +32,7 @@ Friend NotInheritable Class LocalisationSynchroniser
             If Path.GetFileName(filePath).Equals("manifest.toml", StringComparison.OrdinalIgnoreCase) Then Continue For
 
             Try
-                SynchroniseLanguage(filePath, english, applicationName)
+                SynchroniseLanguage(filePath, english, applicationName, programVersion)
             Catch ex As Exception
                 Debug.WriteLine($"[LOC] Failed to synchronise {Path.GetFileName(filePath)}: {ex.Message}")
             End Try
@@ -44,7 +44,7 @@ Friend NotInheritable Class LocalisationSynchroniser
     ' Synchronisation
     ' ====================
 
-    Private Shared Sub SynchroniseLanguage(filePath As String, english As Catalogue, applicationName As String)
+    Private Shared Sub SynchroniseLanguage(filePath As String, english As Catalogue, applicationName As String, programVersion As String)
 
         Dim language = ParseCatalogue(filePath)
         Dim fileInfo = ReadFileInfo(filePath)
@@ -81,7 +81,7 @@ Friend NotInheritable Class LocalisationSynchroniser
 
         Next
 
-        Dim output = WriteCatalogue(language, fileInfo, applicationName)
+        Dim output = WriteCatalogue(language, fileInfo, applicationName, programVersion)
         Dim original = File.ReadAllText(filePath)
 
         If Not String.Equals(original, output, StringComparison.Ordinal) Then File.WriteAllText(filePath, output, Encoding.UTF8)
@@ -243,12 +243,13 @@ Friend NotInheritable Class LocalisationSynchroniser
     ' Catalogue writing
     ' ====================
 
-    Private Shared Function WriteCatalogue(catalogue As Catalogue, fileInfo As FileInfo, applicationName As String) As String
+    Private Shared Function WriteCatalogue(catalogue As Catalogue, fileInfo As FileInfo, applicationName As String, programVersion As String) As String
 
         Dim builder As New StringBuilder()
 
         builder.AppendLine($"# {applicationName} Localisation")
         builder.AppendLine($"# @version {fileInfo.Version}")
+        builder.AppendLine($"# @programversion {programVersion}")
         builder.AppendLine()
         builder.AppendLine("# ===================")
         builder.AppendLine("# Translations")

@@ -6,4 +6,5 @@ Public NotInheritable Class LocalisationOptions
     Public Property CatalogueDirectory As String
     Public Property ResourceAssembly As Assembly
     Public Property ApplicationName As String
+    Public Property ProgramVersion As String
 End Class

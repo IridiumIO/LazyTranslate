@@ -80,6 +80,7 @@ A basic catalogue looks like this:
 ```toml
 # ExampleApplication Localisation
 # @version 1
+# @programversion 1.0.0
 
 "Hello world" = "Hello world"
 "{0} files selected" = "{0} files selected"
@@ -90,7 +91,7 @@ A basic catalogue looks like this:
 
 Each translation file must be named using its culture code, such as `en-AU.toml`, `de-DE.toml`, or `zh-CN.toml`.
 
-At startup, embedded catalogues are copied to the configured catalogue directory. An existing on-disk file is replaced only when the embedded `# @version` is higher.
+At startup, an on-disk catalogue from an older program version is replaced by the embedded catalogue. For the same program version, it is replaced only when the embedded `# @version` is higher. A catalogue from a newer program version is preserved.
 
 ## Initialisation
 
@@ -102,11 +103,14 @@ Await LazyTranslate.InitialiseAsync(New LocalisationOptions With {
     .InitialCulture = settings.Language,
     .CatalogueDirectory = Path.Combine(dataFolder, "Localisation"),
     .ResourceAssembly = GetType(Application).Assembly,
-    .ApplicationName = "ExampleApplication"
+    .ApplicationName = "ExampleApplication",
+    .ProgramVersion = AppVersion.ToString()
 })
 ```
 
 `ApplicationName` must match the prefix of the application's embedded resource names. This is normally the application's root namespace.
+
+`ProgramVersion` should be the running application's semantic version. If it is omitted, LazyTranslate uses the resource assembly's informational version.
 
 If the initial culture cannot be loaded, LazyTranslate falls back to the source language.
 
@@ -259,7 +263,7 @@ version = 2
 file = "de-DE.toml"
 ```
 
-The downloaded catalogue's `# @version` must match the version in the manifest.
+The downloaded catalogue's `# @version` must match the version in the manifest, its `# @programversion` must match the running application, and its catalogue version must be newer than the installed file.
 
 ## DEBUG catalogue builder
 

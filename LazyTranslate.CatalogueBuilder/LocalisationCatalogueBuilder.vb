@@ -59,8 +59,8 @@ Namespace Global.LazyTranslate
                 Directory.CreateDirectory(localisationDirectory)
 
                 WriteReport(projectDirectory, candidates, Localisation.ApplicationName)
-                WriteSourceCatalogue(localisationDirectory, sourceCulture, localisedStrings, Localisation.ApplicationName)
-                LocalisationSynchroniser.SynchroniseAll(localisationDirectory, Localisation.ApplicationName, sourceCulture & ".toml")
+                WriteSourceCatalogue(localisationDirectory, sourceCulture, localisedStrings, Localisation.ApplicationName, Localisation.ProgramVersion)
+                LocalisationSynchroniser.SynchroniseAll(localisationDirectory, Localisation.ApplicationName, Localisation.ProgramVersion, sourceCulture & ".toml")
 
                 Debug.WriteLine($"[LOC SCAN] {localisedStrings.Count} localised strings, {candidates.Count} possible unlocalised strings.")
 
@@ -357,7 +357,7 @@ Namespace Global.LazyTranslate
         ' Output: English catalogue
         ' ====================
 
-        Private Shared Sub WriteSourceCatalogue(localisationDirectory As String, sourceCulture As String, localisedStrings As IEnumerable(Of LocalisedString), applicationName As String)
+        Private Shared Sub WriteSourceCatalogue(localisationDirectory As String, sourceCulture As String, localisedStrings As IEnumerable(Of LocalisedString), applicationName As String, programVersion As String)
 
             Dim filePath = Path.Combine(localisationDirectory, sourceCulture & ".toml")
             Dim version = If(File.Exists(filePath), Localisation.ReadLocalisationVersion(File.ReadAllText(filePath)), 1)
@@ -385,6 +385,7 @@ Namespace Global.LazyTranslate
 
             builder.AppendLine($"# {applicationName} Localisation")
             builder.AppendLine($"# @version {version}")
+            builder.AppendLine($"# @programversion {programVersion}")
             builder.AppendLine()
             builder.AppendLine("# ===================")
             builder.AppendLine("# Translations")
