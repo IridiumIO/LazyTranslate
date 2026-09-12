@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Lazy Translate</Title>
-    <Version>0.1.2</Version>
+    <Version>0.1.4</Version>
     <Authors>IridiumIO</Authors>
     <Company>IridiumIO</Company>
     <Description>Lazy Translation Library for WPF</Description>

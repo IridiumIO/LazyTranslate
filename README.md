@@ -151,6 +151,17 @@ Use `{loc:Binding ...}` to localise a one-value binding format:
 <TextBlock Text="{loc:Binding FileCount, Format={}{0} files selected}" />
 ```
 
+Use `loc:MultiBinding` when a translated format contains more than one bound value:
+
+```xml
+<TextBlock.Text>
+  <loc:MultiBinding Format="{}{0} of {1} completed">
+    <Binding Path="CompletedCount" />
+    <Binding Path="TotalCount" />
+  </loc:MultiBinding>
+</TextBlock.Text>
+```
+
 The entire format string is the catalogue key. Reusing the same value index is supported:
 
 ```xml
@@ -281,4 +292,4 @@ The builder scans the calling application project for:
 - `{loc:T ...}` and `{loc:Binding ...}`
 - `.LT()`, `.LTF()`, and `.LTFC()`
 
-It regenerates the source catalogue, adds missing entries to other language catalogues with `# LOC:TODO`, and moves unused entries into their obsolete sections.
+It regenerates the source catalogue, adds missing entries to other language catalogues with `# LOC:TODO`, and moves unused translated entries into their obsolete sections. Unused `LOC:TODO` entries are deleted instead.

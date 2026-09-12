@@ -5,7 +5,7 @@
     <RootNamespace>LazyTranslate</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Lazy Translate Catalogue Builder</Title>
-    <Version>0.1.2</Version>
+    <Version>0.1.4</Version>
     <Authors>IridiumIO</Authors>
     <Company>IridiumIO</Company>
     <Description>Lazy Translate Catalogue Builder for creating and managing translation catalogues in DEBUG mode</Description>

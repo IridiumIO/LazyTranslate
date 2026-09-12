@@ -107,6 +107,20 @@ Namespace Global.LazyTranslate
                         localisedStrings.Add(New LocalisedString(locValue.Value, context))
                     End If
 
+                    If element.Name.LocalName.Equals("MultiBinding", StringComparison.OrdinalIgnoreCase) AndAlso
+                       IsLazyTranslateNamespace(element.Name.NamespaceName) Then
+                        Dim formatAttribute = element.Attribute("Format")
+
+                        If formatAttribute IsNot Nothing Then
+                            Dim source = formatAttribute.Value
+                            If source.StartsWith("{}", StringComparison.Ordinal) Then source = source.Substring(2)
+
+                            Dim contextAttribute = element.Attribute("Context")
+                            Dim context = If(contextAttribute Is Nothing, Nothing, contextAttribute.Value)
+                            localisedStrings.Add(New LocalisedString(source, context))
+                        End If
+                    End If
+
                     For Each attribute In element.Attributes()
 
                         Dim translated = ExtractLocalisedMarkupExtension(attribute)

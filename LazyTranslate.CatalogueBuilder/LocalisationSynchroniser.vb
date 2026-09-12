@@ -77,7 +77,7 @@ Friend NotInheritable Class LocalisationSynchroniser
 
             Dim item = language.Active(key)
             language.Active.Remove(key)
-            language.Obsolete(key) = item
+            If Not item.Todo Then language.Obsolete(key) = item
 
         Next
 

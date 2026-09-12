@@ -29,17 +29,26 @@ Friend NotInheritable Class LocalisedFormatConverter
 
     Private ReadOnly _format As String
     Private ReadOnly _context As String
+    Private ReadOnly _valueCount As Integer
 
-    Public Sub New(format As String, context As String)
+    Public Sub New(format As String, context As String, valueCount As Integer)
         _format = format
         _context = context
+        _valueCount = valueCount
     End Sub
 
     Public Function Convert(values As Object(), targetType As Type, parameter As Object, culture As CultureInfo) As Object Implements IMultiValueConverter.Convert
 
-        If values.Length = 0 OrElse values(0) Is DependencyProperty.UnsetValue Then Return DependencyProperty.UnsetValue
+        If values.Length < _valueCount Then Return DependencyProperty.UnsetValue
 
-        Return String.Format(L.CurrentCulture, L.T(_format, _context), values(0))
+        Dim formatValues(_valueCount - 1) As Object
+
+        For index = 0 To _valueCount - 1
+            If values(index) Is DependencyProperty.UnsetValue Then Return DependencyProperty.UnsetValue
+            formatValues(index) = values(index)
+        Next
+
+        Return String.Format(L.CurrentCulture, L.T(_format, _context), formatValues)
 
     End Function
 

@@ -1,4 +1,5 @@
 Imports System.Globalization
+Imports System.Collections.ObjectModel
 Imports System.Windows
 Imports System.Windows.Data
 Imports System.Windows.Markup
@@ -105,9 +106,9 @@ Public Class Binding
             .Mode = BindingMode.OneWay
         }
 
-        Dim multiBinding As New MultiBinding With {
+        Dim multiBinding As New System.Windows.Data.MultiBinding With {
             .Mode = BindingMode.OneWay,
-            .Converter = New LocalisedFormatConverter(Format, Context)
+            .Converter = New LocalisedFormatConverter(Format, Context, 1)
         }
 
         multiBinding.Bindings.Add(valueBinding)
@@ -117,4 +118,36 @@ Public Class Binding
 
     End Function
 
+End Class
+
+<ContentProperty("Bindings")>
+Public Class MultiBinding
+    Inherits MarkupExtension
+
+    Public ReadOnly Property Bindings As New Collection(Of BindingBase)
+    Public Property Format As String
+    Public Property Context As String
+    Public Property FallbackValue As Object = DependencyProperty.UnsetValue
+    Public Property TargetNullValue As Object = DependencyProperty.UnsetValue
+
+    Public Overrides Function ProvideValue(serviceProvider As IServiceProvider) As Object
+        Dim binding As New System.Windows.Data.MultiBinding With {
+            .Mode = BindingMode.OneWay,
+            .Converter = New LocalisedFormatConverter(Format, Context, Bindings.Count)
+        }
+
+        For Each valueBinding In Bindings
+            binding.Bindings.Add(valueBinding)
+        Next
+
+        binding.Bindings.Add(New System.Windows.Data.Binding(NameOf(LocalisationState.Version)) With {
+            .Source = LocalisationState.Instance,
+            .Mode = BindingMode.OneWay
+        })
+
+        If FallbackValue IsNot DependencyProperty.UnsetValue Then binding.FallbackValue = FallbackValue
+        If TargetNullValue IsNot DependencyProperty.UnsetValue Then binding.TargetNullValue = TargetNullValue
+
+        Return binding.ProvideValue(serviceProvider)
+    End Function
 End Class
