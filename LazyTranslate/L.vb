@@ -68,6 +68,7 @@ Partial Public NotInheritable Class L
 
         MissingTranslation(source, context)
 
+
         ' English is always the final fallback.
         Return source
 
@@ -156,6 +157,8 @@ Partial Public NotInheritable Class L
     <Conditional("DEBUG")>
     Private Shared Sub MissingTranslation(source As String, context As String)
 
+        If Not Localisation.OutputMissingTranslationsToDebug Then Return
+
         If String.IsNullOrEmpty(context) Then
             Debug.WriteLine($"[LOC] Missing translation: ""{source}""")
         Else
@@ -166,6 +169,7 @@ Partial Public NotInheritable Class L
 
     <Conditional("DEBUG")>
     Private Shared Sub LocalisationWarning(message As String)
+        If Not Localisation.OutputMissingTranslationsToDebug Then Return
         Debug.WriteLine($"[LOC] {message}")
     End Sub
 

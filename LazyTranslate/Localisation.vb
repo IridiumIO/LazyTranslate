@@ -15,12 +15,15 @@ Public Module Localisation
     Friend Property ApplicationName As String
     Friend Property ProgramVersion As String
 
+    Friend Property OutputMissingTranslationsToDebug As Boolean = False
+
     Private ReadOnly HttpClient As New HttpClient()
 
     Public Async Function InitializeAsync(options As LocalisationOptions) As Task
         ApplicationName = options.ApplicationName
         ProgramVersion = If(options.ProgramVersion, GetProgramVersion(options.ResourceAssembly))
         L.CatalogueDirectory = options.CatalogueDirectory
+        OutputMissingTranslationsToDebug = options.OutputMissingTranslationsToDebug
         Directory.CreateDirectory(options.CatalogueDirectory)
         Await SynchroniseEmbeddedLanguagesAsync(options, options.ApplicationName & ".")
 

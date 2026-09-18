@@ -7,4 +7,5 @@ Public NotInheritable Class LocalisationOptions
     Public Property ResourceAssembly As Assembly
     Public Property ApplicationName As String
     Public Property ProgramVersion As String
+    Public Property OutputMissingTranslationsToDebug As Boolean = False
 End Class
