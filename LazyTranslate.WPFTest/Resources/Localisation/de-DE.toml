@@ -7,7 +7,7 @@
 
 "Button Text" = "Klicken Sie hier"
 "Change Language" = "Sprache ändern"
-"Hello World" = "Guten Tag Welt"
+"Hello World" = "Guten Tag Welt" # LOC:CASE-CHANGED | LOC:TODO
 
 [obsolete]
 "{Binding MyName}" = "{Binding MyName}" # LOC:TODO

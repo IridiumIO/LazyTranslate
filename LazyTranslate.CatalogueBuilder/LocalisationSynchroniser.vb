@@ -10,6 +10,8 @@ Imports Tomlyn.Model
 
 Friend NotInheritable Class LocalisationSynchroniser
 
+    Private Const CaseChangedMarker As String = "LOC:CASE-CHANGED"
+
     Private Sub New()
     End Sub
 
@@ -65,7 +67,13 @@ Friend NotInheritable Class LocalisationSynchroniser
                 language.Obsolete.Remove(englishItem.Key)
                 language.Active(englishItem.Key) = restored
             Else
-                language.Active(englishItem.Key) = New Entry(englishItem.Source, englishItem.Source, englishItem.Context, englishItem.Comment, todo:=True)
+                Dim caseChangedEntry = FindCaseChangedEntry(englishItem, language, english)
+
+                If caseChangedEntry IsNot Nothing Then
+                    language.Active(englishItem.Key) = New Entry(englishItem.Source, caseChangedEntry.Translation, englishItem.Context, AddCaseChangedMarker(caseChangedEntry.Comment), todo:=True)
+                Else
+                    language.Active(englishItem.Key) = New Entry(englishItem.Source, englishItem.Source, englishItem.Context, englishItem.Comment, todo:=True)
+                End If
             End If
 
         Next
@@ -93,6 +101,42 @@ Friend NotInheritable Class LocalisationSynchroniser
         Debug.WriteLine($"[LOC] {cultureName}: {translatedCount} translated, {todoCount} TODO, {language.Obsolete.Count} obsolete")
 
     End Sub
+
+
+    Private Shared Function FindCaseChangedEntry(englishItem As Entry, language As Catalogue, english As Catalogue) As Entry
+
+        Dim candidates = language.Active.Values.
+            Where(Function(item) Not english.Active.ContainsKey(item.Key) AndAlso IsCaseChangedMatch(item, englishItem)).
+            Concat(language.Obsolete.Values.Where(Function(item) IsCaseChangedMatch(item, englishItem))).
+            ToList()
+
+        If candidates.Count <> 1 Then Return Nothing
+
+        Dim candidate = candidates(0)
+
+        language.Active.Remove(candidate.Key)
+        language.Obsolete.Remove(candidate.Key)
+
+        Return candidate
+
+    End Function
+
+    Private Shared Function IsCaseChangedMatch(candidate As Entry, englishItem As Entry) As Boolean
+
+        Return String.Equals(candidate.Context, englishItem.Context, StringComparison.Ordinal) AndAlso
+               String.Equals(candidate.Source, englishItem.Source, StringComparison.OrdinalIgnoreCase) AndAlso
+               Not String.Equals(candidate.Source, englishItem.Source, StringComparison.Ordinal)
+
+    End Function
+
+    Private Shared Function AddCaseChangedMarker(comment As String) As String
+
+        If String.IsNullOrWhiteSpace(comment) Then Return CaseChangedMarker
+        If comment.Contains(CaseChangedMarker, StringComparison.OrdinalIgnoreCase) Then Return comment
+
+        Return $"{comment} | {CaseChangedMarker}"
+
+    End Function
 
     ' ====================
     ' Catalogue parsing
