@@ -1,0 +1,29 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.6</Version>
+    <Authors>IridiumIO</Authors>
+    <Company>IridiumIO</Company>
+    <Copyright>IridiumIO</Copyright>
+
+    <PackageProjectUrl>https://github.com/IridiumIO/LazyTranslate</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/IridiumIO/LazyTranslate</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts</PackageOutputPath>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md"
+          Pack="true"
+          PackagePath="\" />
+  </ItemGroup>
+</Project>
